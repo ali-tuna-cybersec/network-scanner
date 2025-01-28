@@ -1,0 +1,19 @@
+
+# Ignore this automation script
+publish_project_to_github.py
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore environment-specific files
+.env
+
+# Ignore logs
+logs/
+
+# Ignore any local configuration files
+*.config
+
+# Ignore the original text files used for content
+*_content.txt

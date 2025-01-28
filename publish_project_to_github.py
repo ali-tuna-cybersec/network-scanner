@@ -47,15 +47,40 @@ usage_content = load_content_from_txt(usage_content_txt)
 # Save files in the project directory
 save_file_from_txt(os.path.join(project_dir, 'network_scanner.py'), network_scanner_script)
 
+# Save README.md in the root directory
+save_file_from_txt(os.path.join(project_dir, 'README.md'), readme_content)
+
 docs_dir = os.path.join(project_dir, 'docs')
 os.makedirs(docs_dir, exist_ok=True)
-save_file_from_txt(os.path.join(docs_dir, 'README.md'), readme_content)
 save_file_from_txt(os.path.join(docs_dir, 'SETUP.md'), setup_content)
 save_file_from_txt(os.path.join(docs_dir, 'USAGE.md'), usage_content)
 
 # Create logs, reports, and screenshots directories
 for sub_dir in ['logs', 'reports', 'screenshots']:
     os.makedirs(os.path.join(project_dir, sub_dir), exist_ok=True)
+
+# Create .gitignore file
+gitignore_content = """
+# Ignore this automation script
+publish_project_to_github.py
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore environment-specific files
+.env
+
+# Ignore logs
+logs/
+
+# Ignore any local configuration files
+*.config
+
+# Ignore the original text files used for content
+*_content.txt
+"""
+save_file_from_txt(os.path.join(project_dir, '.gitignore'), gitignore_content)
 
 # Git commands to initialize repository and push to GitHub
 commands = [
