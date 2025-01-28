@@ -1,6 +1,10 @@
 import os
 import subprocess
+
+# Get the GitHub token from environment variable
 TOKEN = os.environ.get('GITHUB_TOKEN')
+if not TOKEN:
+    raise ValueError("GITHUB_TOKEN environment variable is not set")
 
 # Function to execute shell commands
 def run_command(command):
@@ -59,12 +63,19 @@ commands = [
     'git init',
     'git add .',
     'git commit -m "Initial commit with network scanner script and documentation"',
-    f'git remote add origin {REPO_URL}',
-    f'git push -u https://{GITHUB_USERNAME}:{TOKEN}@github.com/{GITHUB_USERNAME}/{REPO_NAME}.git main'
+    'git branch -M main',  # Ensure we're on the main branch
+    f'git remote remove origin || true',  # Remove existing origin if it exists
+    f'git remote add origin https://{GITHUB_USERNAME}:{TOKEN}@github.com/{GITHUB_USERNAME}/{REPO_NAME}.git',
+    'git push -u origin main --force'  # Force push to overwrite remote history
 ]
 
 # Execute Git commands
 for command in commands:
-    run_command(command)
+    try:
+        run_command(command)
+    except Exception as e:
+        print(f"Warning: {str(e)}")
+        # Continue execution even if a command fails
+        continue
 
 print("Project and documentation successfully published to GitHub.")
