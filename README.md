@@ -14,11 +14,11 @@ A comprehensive network discovery and scanning tool
 - Service version detection
 
 ## Setup Instructions
-[Link to SETUP.md]
+https://github.com/ali-tuna-cybersec/network-scanner/blob/main/docs/SETUP.md
 
 ## Usage Guide
-[Link to USAGE.md]
+https://github.com/ali-tuna-cybersec/network-scanner/blob/main/docs/USAGE.md
 
 ## Project Status
 - Version: 1.0
-- Last Updated: [26.01.2025]
+- Last Updated: 28.01.2025
