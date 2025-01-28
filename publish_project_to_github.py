@@ -1,5 +1,6 @@
 import os
 import subprocess
+import requests
 
 # Get the GitHub token from environment variable
 TOKEN = os.environ.get('GITHUB_TOKEN')
@@ -14,10 +15,32 @@ def run_command(command):
         raise Exception(f"Error executing command: {command}\n{stderr.decode()}")
     return stdout.decode()
 
+# Function to create GitHub repository
+def create_github_repo(repo_name):
+    url = "https://api.github.com/user/repos"
+    headers = {
+        "Authorization": f"token {TOKEN}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    data = {
+        "name": repo_name,
+        "private": False,
+        "auto_init": True
+    }
+    response = requests.post(url, headers=headers, json=data)
+    if response.status_code == 201:
+        print(f"Repository '{repo_name}' created successfully.")
+    else:
+        print(f"Failed to create repository. Status code: {response.status_code}")
+        print(f"Response: {response.json()}")
+
 # Set your GitHub repository details
 GITHUB_USERNAME = 'ali-tuna-cybersec'
 REPO_NAME = 'network-scanner'
 REPO_URL = f"https://github.com/{GITHUB_USERNAME}/{REPO_NAME}.git"
+
+# Create the repository if it doesn't exist
+create_github_repo(REPO_NAME)
 
 # Project directory setup
 project_dir = os.path.expanduser('/home/rakun/cybersecurity-projects/network-scanner')
@@ -95,12 +118,16 @@ commands = [
 ]
 
 # Execute Git commands
+success = True
 for command in commands:
     try:
         run_command(command)
     except Exception as e:
         print(f"Warning: {str(e)}")
-        # Continue execution even if a command fails
-        continue
+        success = False
+        break
 
-print("Project and documentation successfully published to GitHub.")
+if success:
+    print("Project and documentation successfully published to GitHub.")
+else:
+    print("Failed to publish project to GitHub. Please check the error messages above.")
